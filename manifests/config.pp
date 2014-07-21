@@ -37,6 +37,8 @@ class boxen::config (
     $repo_url_template,
   )
 
+  info("$home,$bindir,$cachedir,$configdir,$datadir,$envdir,$homebrewdir,$logdir,$repodir,$reponame,$socketdir,$srcdir,$login,$repo_url_template")
+
   file { [$home,
           $srcdir,
           $bindir,
