@@ -4,7 +4,7 @@ facts       = {}
 dot_boxen   = "#{ENV['HOME']}/.boxen"
 user_config = "#{dot_boxen}/config.json"
 
-if RUBY_PLATFORM =~ /darwin/
+if (RUBY_PLATFORM =~ /darwin/ || RUBY_PLATFORM =~ /linux/)
   require "boxen/config"
   config = Boxen::Config.load
 
@@ -23,25 +23,7 @@ if RUBY_PLATFORM =~ /darwin/
   facts["boxen_repo_url_template"] = config.repotemplate if config.respond_to? :repotemplate
   facts["boxen_s3_host"] = config.s3host if config.respond_to? :s3host
   facts["boxen_s3_bucket"] = config.s3bucket if config.respond_to? :s3bucket
-elsif RUBY_PLATFORM =~ /linux/
-  require "boxen/config"
-  config = Boxen::Config.load
 
-  facts["github_login"]  = config.login
-  facts["github_email"]  = config.email
-  facts["github_name"]   = config.name
-  facts["github_token"]  = config.token
-
-  facts["boxen_home"]     = config.homedir
-  facts["boxen_srcdir"]   = "#{ENV['HOME']}/src"	#ugly hack to support (my) linux
-  facts["boxen_repodir"]  = config.repodir
-  facts["boxen_reponame"] = config.reponame
-  facts["boxen_user"]     = config.user
-  facts["luser"]          = config.user # this is goin' away
-
-  facts["boxen_repo_url_template"] = config.repotemplate if config.respond_to? :repotemplate
-  facts["boxen_s3_host"] = config.s3host if config.respond_to? :s3host
-  facts["boxen_s3_bucket"] = config.s3bucket if config.respond_to? :s3bucket
 else
   facts["github_login"]   = ENV['GITHUB_LOGIN']
   facts["github_email"]   = ENV['GITHUB_EMAIL']
