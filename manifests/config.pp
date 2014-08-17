@@ -61,9 +61,10 @@ class boxen::config (
       owner  => root
     }
     file {"/Users/${::boxen_user}":
-      ensure => 'link',
-      target => "/home/${::boxen_user}",
-      owner  => $::boxen_user
+      ensure  => 'link',
+      target  => "/home/${::boxen_user}",
+      owner   => $::boxen_user,
+      require => [ File["/Users"] ],
     }
     file {"/var/db":
       ensure => directory,
