@@ -34,7 +34,7 @@ class boxen::environment(
     'gh_creds':
       content  => template('boxen/gh_creds.sh.erb'),
       priority => 'higher' ;
-    'relative_bin_on_path':
+    'relative_bin_on_path': # TODO: remove the whole relative_bin_on_path thing. this is like, the worst idea ever. adding bin/ to the front of someone's path is begging for a cache miss due to the way that bash caches hashes of full paths (try running 'hash')
       ensure   => $relative_bin_on_path_ensure,
       source   => 'puppet:///modules/boxen/relative_bin_on_path.sh',
       priority => 'lowest' ;

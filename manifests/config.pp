@@ -37,7 +37,7 @@ class boxen::config (
     $repo_url_template,
   )
 
-  info("$home,$bindir,$cachedir,$configdir,$datadir,$envdir,$homebrewdir,$logdir,$repodir,$reponame,$socketdir,$srcdir,$login,$repo_url_template")
+  #info("$home,$bindir,$cachedir,$configdir,$datadir,$envdir,$homebrewdir,$logdir,$repodir,$reponame,$socketdir,$srcdir,$login,$repo_url_template")
 
   file { [$home,
           $srcdir,
@@ -51,7 +51,27 @@ class boxen::config (
     ensure => directory,
     links  => follow
   }
-
+  
+  # take care of paths and directories that exist in Darwin but not in Debian
+  if $::osfamily == 'Debian'
+  {
+    file {"/Users":
+      ensure => directory,
+      links  => follow,
+      owner  => root
+    }
+    file {"/Users/${::boxen_user}":
+      ensure => 'link',
+      target => "/home/${::boxen_user}",
+      owner  => $::boxen_user
+    }
+    file {"/var/db":
+      ensure => directory,
+      links  => follow,
+      owner  => root
+    }
+  }
+  
   file { "${home}/README.md":
     source => 'puppet:///modules/boxen/README.md'
   }
@@ -73,9 +93,16 @@ class boxen::config (
     "${home}/data/puppet",
     "${home}/data/puppet/graphs"
   ]
+  
+  $group = $osfamily ? {
+    'Darwin' => 'staff',
+    default  => $::boxen_user,
+  }
 
   file { $puppet_data_dirs:
     ensure => directory,
     owner  => $::boxen_user
   }
+  
+ 
 }
