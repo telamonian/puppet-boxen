@@ -8,7 +8,7 @@
 #      priority => 'highest';
 #   }
 
-class boxen:bottle_fixes ($formula_titles) {
+class boxen::bottle_fixes ($formula_titles) {
   create_resources(boxen::bottle_fix, $formula_titles)
 }
 
