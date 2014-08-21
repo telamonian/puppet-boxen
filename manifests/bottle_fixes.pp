@@ -8,6 +8,10 @@
 #      priority => 'highest';
 #   }
 
+class boxen:bottle_fixes ($formula_titles) {
+  create_resources(boxen::bottle_fix, $formula_titles)
+}
+
 define boxen::bottle_fix ($formula_title = undef) {
 	# the default behavior for boxen is to use bottles the boxen team brews themselves and hosts on their S3 site, rather than the default homebrew bottles
 	# for "reasons"[https://github.com/boxen/puppet-homebrew/issues/18], this royally screws up installing certain programs (gcc,python,nginx,imagemagick) on older macs and virtual machines. If you have the related problem, your build will fail with something like "Illegal instruction: 4" 
