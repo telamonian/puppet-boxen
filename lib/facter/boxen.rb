@@ -4,58 +4,42 @@ facts       = {}
 dot_boxen   = "#{ENV['HOME']}/.boxen"
 user_config = "#{dot_boxen}/config.json"
 
-if (RUBY_PLATFORM =~ /darwin/)
+if (Facter.value(:kernel) =~ /(darwin)|(linux)/)
   require "boxen/config"
   config = Boxen::Config.load
 
-  facts["github_login"]  = config.login
-  facts["github_email"]  = config.email
-  facts["github_name"]   = config.name
-  facts["github_token"]  = config.token
+  facts["github_login"]    = config.login
+  facts["github_email"]    = config.email
+  facts["github_name"]     = config.name
+  facts["github_token"]    = config.token
 
-  facts["boxen_home"]     = config.homedir
-  facts["boxen_srcdir"]   = config.srcdir
-  facts["boxen_repodir"]  = config.repodir
-  facts["boxen_reponame"] = config.reponame
-  facts["boxen_user"]     = config.user
-  facts["boxen_group"]    = "staff"
-  facts["luser"]          = config.user # this is goin' away
-
-  facts["boxen_repo_url_template"] = config.repotemplate if config.respond_to? :repotemplate
-  facts["boxen_s3_host"] = config.s3host if config.respond_to? :s3host
-  facts["boxen_s3_bucket"] = config.s3bucket if config.respond_to? :s3bucket
-elsif (RUBY_PLATFORM =~ /linux/)
-  require "boxen/config"
-  config = Boxen::Config.load
-
-  facts["github_login"]  = config.login
-  facts["github_email"]  = config.email
-  facts["github_name"]   = config.name
-  facts["github_token"]  = config.token
-
-  facts["boxen_home"]     = config.homedir
-  facts["boxen_srcdir"]   = config.srcdir
-  facts["boxen_repodir"]  = config.repodir
-  facts["boxen_reponame"] = config.reponame
-  facts["boxen_user"]     = config.user
-  facts["boxen_group"]    = config.group
-  facts["luser"]          = config.user # this is goin' away
+  facts["boxen_home"]      = config.homedir
+  facts["boxen_srcdir"]    = config.srcdir
+  facts["boxen_repodir"]   = config.repodir
+  facts["boxen_reponame"]  = config.reponame
+  facts["boxen_user"]      = config.user
+  facts["boxen_group"]     = config.group
+  facts["boxen_rootuser"]  = config.rootuser
+  facts["boxen_rootgroup"] = config.rootgroup
+  facts["luser"]           = config.user # this is goin' away
 
   facts["boxen_repo_url_template"] = config.repotemplate if config.respond_to? :repotemplate
   facts["boxen_s3_host"] = config.s3host if config.respond_to? :s3host
   facts["boxen_s3_bucket"] = config.s3bucket if config.respond_to? :s3bucket
 else
-  facts["github_login"]   = ENV['GITHUB_LOGIN']
-  facts["github_email"]   = ENV['GITHUB_EMAIL']
-  facts["github_name"]    = ENV['GITHUB_NAME']
-  facts["github_token"]   = ENV['GITHUB_TOKEN']
-  facts["boxen_home"]     = ENV['BOXEN_HOME']
-  facts["boxen_srcdir"]   = ENV['BOXEN_SRCDIR']
-  facts["boxen_repodir"]  = ENV['BOXEN_REPODIR']
-  facts["boxen_reponame"] = ENV['BOXEN_REPONAME']
-  facts["boxen_user"]     = ENV['BOXEN_USER']
-  facts["boxen_group"]    = ENV['BOXEN_USER']
-  facts["luser"]          = ENV['BOXEN_USER']
+  facts["github_login"]    = ENV['GITHUB_LOGIN']
+  facts["github_email"]    = ENV['GITHUB_EMAIL']
+  facts["github_name"]     = ENV['GITHUB_NAME']
+  facts["github_token"]    = ENV['GITHUB_TOKEN']
+  facts["boxen_home"]      = ENV['BOXEN_HOME']
+  facts["boxen_srcdir"]    = ENV['BOXEN_SRCDIR']
+  facts["boxen_repodir"]   = ENV['BOXEN_REPODIR']
+  facts["boxen_reponame"]  = ENV['BOXEN_REPONAME']
+  facts["boxen_user"]      = ENV['BOXEN_USER']
+  facts["boxen_group"]     = ENV['BOXEN_GROUP']
+  facts["boxen_rootuser"]  = ENV['BOXEN_ROOTUSER']
+  facts["boxen_rootgroup"] = ENV['BOXEN_ROOTGROUP']
+  facts["luser"]           = ENV['BOXEN_USER']
 
   facts["boxen_repo_url_template"] = ENV['BOXEN_REPO_URL_TEMPLATE']
   facts["boxen_s3_host"]           = ENV['BOXEN_S3_HOST']

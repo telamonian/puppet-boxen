@@ -37,8 +37,8 @@ class boxen::config (
     $repo_url_template,
   )
 
-  #info("$home,$bindir,$cachedir,$configdir,$datadir,$envdir,$homebrewdir,$logdir,$repodir,$reponame,$socketdir,$srcdir,$login,$repo_url_template")
-
+  #fail("$home,$bindir,$cachedir,$configdir,$datadir,$envdir,$homebrewdir,$logdir,$repodir,$reponame,$socketdir,$srcdir,$login,$repo_url_template")
+  
   file { [$home,
           $srcdir,
           $bindir,
@@ -94,11 +94,6 @@ class boxen::config (
     "${home}/data/puppet",
     "${home}/data/puppet/graphs"
   ]
-  
-  $group = $osfamily ? {
-    'Darwin' => 'staff',
-    default  => $::boxen_user,
-  }
 
   file { $puppet_data_dirs:
     ensure => directory,
